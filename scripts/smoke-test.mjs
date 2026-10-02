@@ -122,7 +122,7 @@ check('home renders the hero and only the declared subjects', () => {
   const cards = $$('.subject-card');
   assert.equal(cards.length, subjects.length, 'one card per subject in the data file');
   assert.equal(text('.subject-card-title'), 'Operating System');
-  assert.equal(text('.subject-card-meta'), '2 programs');
+  assert.equal(text('.subject-card-meta'), `${programs.length} programs`);
   assert.equal($$('.program-card').length, 0, 'home lists subjects, not programs');
 });
 
@@ -140,7 +140,7 @@ check('clicking a subject opens its program list', async () => {
   const titles = $$('.program-card-title').map((node) => node.textContent.trim());
   assert.deepEqual(titles, programs.map((program) => program.title));
   assert.equal(text('.subject-title'), 'Operating System');
-  assert.equal(text('.subject-meta'), '2 programs');
+  assert.equal(text('.subject-meta'), `${programs.length} programs`);
   assert.deepEqual(
     $$('.program-card .badge--lang').map((node) => node.textContent.trim()),
     programs.map((program) => program.language)

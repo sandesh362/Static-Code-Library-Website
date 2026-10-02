@@ -14,12 +14,12 @@
  *    (use a template literal — backticks — and paste it exactly as-is).
  *
  *   {
- *     id: 'fcfs-cpu-scheduling',            // unique, url-safe
- *     subjectId: 'operating-system',        // must match a subject `id`
- *     title: 'FCFS CPU Scheduling',         // shown as the card + page title
- *     language: 'C',                        // 'C' or 'C++' (used for the badge)
- *     filename: 'fcfs.c',                   // optional — shown above the code
- *     description: '',                      // optional — only shown if non-empty
+ *     id: 'round-robin-scheduling',       // unique, url-safe
+ *     subjectId: 'operating-system',      // must match a subject `id`
+ *     title: 'Round Robin Scheduling',    // shown as the card + page title
+ *     language: 'C',                      // 'C' or 'C++' (used for the badge)
+ *     filename: 'round_robin.c',          // optional — shown above the code
+ *     description: '',                    // optional — only shown if non-empty
  *     code: `#include <stdio.h>
  * ...`,
  *   }
@@ -30,6 +30,8 @@
  *   - `code` must be a non-empty string and is rendered verbatim: never
  *     re-indent, re-format or "fix" it, or the copy button would no longer
  *     return the original file.
+ *   - Backslashes are escaped in this file (`\n`, `\t`), which is what makes
+ *     the browser print a real backslash-n / backslash-t in the source.
  *
  * Every subject listed here must contain at least one program — the UI never
  * renders an empty category.
@@ -53,9 +55,9 @@ export const subjects = [
 ];
 
 /**
- * Programs. Ordered as they should appear inside their subject.
- * `description` is intentionally left empty for the supplied programs because
- * none was provided — the UI simply omits the description block.
+ * Programs, in the order they appear inside their subject.
+ * `description` is intentionally left empty because none was supplied — the UI
+ * simply omits the description block when it is empty.
  */
 export const programs = [
   {
@@ -226,6 +228,163 @@ int main()
     }
 
     printf("\\n\\nTotal Page Faults = %d\\n", pageFault);
+
+    return 0;
+}
+`,
+  },
+  {
+    id: 'fcfs-cpu-scheduling',
+    subjectId: 'operating-system',
+    title: 'FCFS Scheduling',
+    language: 'C',
+    filename: 'fcfs.c',
+    description: '',
+    code: `#include <stdio.h>
+
+int main()
+{
+    int n, i;
+    int p[10], bt[10], wt[10], tat[10];
+
+    int total_wt = 0, total_tat = 0;
+    float avg_wt, avg_tat;
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    printf("Enter burst time:\\n");
+
+    for(i = 0; i < n; i++)
+    {
+        p[i] = i + 1;
+
+        printf("P%d: ", p[i]);
+        scanf("%d", &bt[i]);
+    }
+
+    // Waiting Time
+    wt[0] = 0;
+
+    for(i = 1; i < n; i++)
+    {
+        wt[i] = wt[i - 1] + bt[i - 1];
+    }
+
+    // Turnaround Time
+    for(i = 0; i < n; i++)
+    {
+        tat[i] = wt[i] + bt[i];
+    }
+
+    // Total WT and TAT
+    for(i = 0; i < n; i++)
+    {
+        total_wt = total_wt + wt[i];
+        total_tat = total_tat + tat[i];
+    }
+
+    // Average
+    avg_wt = (float)total_wt / n;
+    avg_tat = (float)total_tat / n;
+
+    printf("\\nProcess\\tBT\\tWT\\tTAT\\n");
+
+    for(i = 0; i < n; i++)
+    {
+        printf("P%d\\t%d\\t%d\\t%d\\n",
+               p[i], bt[i], wt[i], tat[i]);
+    }
+
+    printf("\\nAverage Waiting Time = %.2f\\n", avg_wt);
+    printf("Average Turnaround Time = %.2f\\n", avg_tat);
+
+    return 0;
+}
+`,
+  },
+  {
+    id: 'sjf-scheduling',
+    subjectId: 'operating-system',
+    title: 'SJF Scheduling',
+    language: 'C',
+    filename: 'sjf.c',
+    description: '',
+    code: `#include <stdio.h>
+
+int main()
+{
+    int n, i, j, temp;
+    int p[10], bt[10], wt[10], tat[10];
+    int total_wt = 0, total_tat = 0;
+    float avg_wt, avg_tat;
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    printf("Enter burst time:\\n");
+
+    for(i = 0; i < n; i++)
+    {
+        p[i] = i + 1;
+
+        printf("P%d: ", p[i]);
+        scanf("%d", &bt[i]);
+    }
+
+    // Sort according to burst time
+    for(i = 0; i < n - 1; i++)
+    {
+        for(j = i + 1; j < n; j++)
+        {
+            if(bt[i] > bt[j])
+            {
+                temp = bt[i];
+                bt[i] = bt[j];
+                bt[j] = temp;
+
+                temp = p[i];
+                p[i] = p[j];
+                p[j] = temp;
+            }
+        }
+    }
+
+    // Waiting Time
+    wt[0] = 0;
+
+    for(i = 1; i < n; i++)
+    {
+        wt[i] = wt[i - 1] + bt[i - 1];
+    }
+
+    // Turnaround Time
+    for(i = 0; i < n; i++)
+    {
+        tat[i] = wt[i] + bt[i];
+    }
+
+    // Total
+    for(i = 0; i < n; i++)
+    {
+        total_wt = total_wt + wt[i];
+        total_tat = total_tat + tat[i];
+    }
+
+    // Average
+    avg_wt = (float)total_wt / n;
+    avg_tat = (float)total_tat / n;
+
+    printf("\\nProcess\\tBT\\tWT\\tTAT\\n");
+
+    for(i = 0; i < n; i++)
+    {
+        printf("P%d\\t%d\\t%d\\t%d\\n",
+               p[i], bt[i], wt[i], tat[i]);
+    }
+
+    printf("\\nAverage Waiting Time = %.2f\\n", avg_wt);
+    printf("Average Turnaround Time = %.2f\\n", avg_tat);
 
     return 0;
 }

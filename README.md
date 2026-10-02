@@ -8,6 +8,9 @@ There is **no backend, database, API, login, analytics or network request** for
 content. Every program lives in `src/data/programs.js`, and the site renders
 exactly what is written there.
 
+Currently in the library — **Operating System**: FIFO Page Replacement,
+LRU Page Replacement, FCFS Scheduling, SJF Scheduling.
+
 ---
 
 ## Quick start
