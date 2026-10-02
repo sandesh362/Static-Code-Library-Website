@@ -1,0 +1,285 @@
+/* ==========================================================================
+   CodeShelf — code viewer (dark surface, line numbers, copy button)
+   ========================================================================== */
+
+.code-page {
+  min-width: 0;
+}
+
+.code-header {
+  margin-bottom: 18px;
+}
+
+.code-title {
+  font-size: clamp(21px, 4.6vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+}
+
+.code-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  min-width: 0;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.code-filename {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  overflow-wrap: anywhere;
+}
+
+.code-lines {
+  font-variant-numeric: tabular-nums;
+}
+
+.code-subject-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  color: var(--brand-strong);
+  font-weight: 550;
+}
+
+.code-subject-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.code-description {
+  margin-top: 14px;
+  max-width: 72ch;
+  font-size: 14.5px;
+  color: var(--text-2);
+}
+
+.code-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  margin-bottom: 14px;
+}
+
+.code-toolbar .btn,
+.code-footer .btn {
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.code-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* --- panel --------------------------------------------------------------- */
+.code-panel {
+  min-width: 0;
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius-lg);
+  background: var(--code-bg);
+  box-shadow: var(--shadow-lg);
+}
+
+.code-panel-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  padding: 9px 12px 9px 14px;
+  border-radius: 15px 15px 0 0;
+  border-bottom: 1px solid var(--code-border);
+  background: var(--code-bar-bg);
+  font-size: 12.5px;
+  color: var(--code-muted);
+}
+
+.code-panel-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dark-surface variant of the language badge. */
+.code-panel-bar .badge {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
+  color: #c7d2e5;
+}
+
+/* --- code block ---------------------------------------------------------- */
+.code-pre {
+  margin: 0;
+  max-width: 100%;
+  padding: 12px 0;
+  border-radius: 0 0 15px 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #2c3a4f transparent;
+}
+
+.code-pre::-webkit-scrollbar {
+  height: 10px;
+}
+
+.code-pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.code-pre::-webkit-scrollbar-thumb {
+  border: 2px solid var(--code-bg);
+  border-radius: var(--radius-pill);
+  background: #2c3a4f;
+}
+
+.code-rows {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  font: inherit;
+}
+
+.code-row {
+  display: flex;
+}
+
+.code-row:hover {
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.code-ln {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  flex: 0 0 auto;
+  width: calc(var(--gutter, 2) * 1ch + 30px);
+  padding-right: 14px;
+  background: var(--code-gutter-bg);
+  color: var(--code-gutter);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.code-line {
+  /* Blank lines keep the height of a code line. No placeholder character is
+     injected, so the rendered text is exactly the source string. */
+  min-height: 1.65em;
+  padding-right: 20px;
+  white-space: pre;
+}
+
+/* --- syntax tokens (One-Dark inspired) ----------------------------------- */
+.tok-comment {
+  color: #7d8796;
+  font-style: italic;
+}
+
+.tok-keyword {
+  color: #c678dd;
+}
+
+.tok-type {
+  color: #e5c07b;
+}
+
+.tok-string {
+  color: #98c379;
+}
+
+.tok-number {
+  color: #d19a66;
+}
+
+.tok-function {
+  color: #61afef;
+}
+
+.tok-operator {
+  color: #56b6c2;
+}
+
+.tok-preprocessor {
+  color: #e5c07b;
+}
+
+.tok-identifier {
+  color: var(--code-text);
+}
+
+.tok-plain {
+  color: inherit;
+}
+
+/* --- thumb-reachable action bar on phones -------------------------------- */
+.mobile-action-bar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .code-page {
+    /* Room for the sticky bar to sit in while it is pinned. */
+    padding-bottom: 86px;
+  }
+
+  .copy-button--desktop {
+    display: none;
+  }
+
+  /* Sticky rather than fixed: it pins to the bottom of the viewport while the
+     program is on screen, then scrolls away with the page instead of covering
+     the site footer. */
+  .mobile-action-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 45;
+    display: flex;
+    gap: 10px;
+    /* Full-bleed background, content-width buttons. */
+    margin: 18px calc(-1 * var(--gutter-x)) 0;
+    padding: 10px var(--gutter-x) calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.93);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    backdrop-filter: saturate(180%) blur(12px);
+  }
+
+  .mobile-action-bar .btn {
+    min-height: 46px;
+    font-size: 15px;
+  }
+
+  .mobile-action-bar .copy-button {
+    flex: 0 0 auto;
+  }
+}
